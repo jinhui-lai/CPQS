@@ -1,0 +1,81 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: cpqs-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: cpqs
+    ports:
+      - "3306:3306"
+    command: ["--max_execution_time=60000"]
+
+  mariadb:
+    image: mariadb:11.4
+    container_name: cpqs-mariadb
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: cpqs
+    ports:
+      - "3307:3306"
+
+  postgres:
+    image: postgres:16
+    container_name: cpqs-postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cpqs
+    ports:
+      - "5432:5432"
+
+  cockroach:
+    image: cockroachdb/cockroach:v24.3.0
+    container_name: cpqs-cockroach
+    command: ["start-single-node", "--insecure", "--advertise-addr=localhost"]
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+
+  tidb:
+    image: pingcap/tidb:v8.5.0
+    container_name: cpqs-tidb
+    command: ["--store=unistore", "--path=/tmp/tidb"]
+    ports:
+      - "4000:4000"
+
+  oracle:
+    image: gvenzl/oracle-free:23.5-slim
+    container_name: cpqs-oracle
+    environment:
+      ORACLE_PASSWORD: oracle
+    ports:
+      - "1521:1521"
+    profiles: ["oracle"]
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    container_name: cpqs-clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  opengauss:
+    image: enmotech/opengauss:5.0.0
+    container_name: cpqs-opengauss
+    privileged: true
+    environment:
+      GS_PASSWORD: OpenGauss@123
+    ports:
+      - "15432:5432"
+
+  oceanbase:
+    image: oceanbase/oceanbase-ce:4.2.1-lts
+    container_name: cpqs-oceanbase
+    environment:
+      MINI_MODE: "1"
+    ports:
+      - "2881:2881"
+    profiles: ["oceanbase"]
