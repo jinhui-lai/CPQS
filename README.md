@@ -69,7 +69,7 @@ On the five target DBMSs, CPQS found previously unknown performance issues that 
 | --- | --- | --- |
 | Oracle | 2+ | Combined `MIN`/`MAX` falls back to a full scan; FULL OUTER + disjunction misses key ranges |
 | MySQL | 8 | Missed unique lookup / ordered LIMIT / partition prune paths |
-| MariaDB | 4 | Similar index and join access issues |
+| MariaDB | 5 | Similar index and join access issues |
 | TiDB | 4 | Inefficient ordered, partition, or join plans |
 | CockroachDB | 4 | FULL OUTER + disjunction full PK scans; dual-aggregate cartesian products |
 
